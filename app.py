@@ -40,8 +40,9 @@ def run_buddy():
                 # handle async result request
                 if asyncio.iscoroutine(result):
                     result = asyncio.run(result)
+                st.markdown(f'**Agent used: {result.last_agent.name}**')
                 st.markdown(result.final_output)
-                # asyncio.run(coro)
+        
         st.session_state.message_history.append({"role": "assistant", "content": result.final_output})
         print("----------------END OF RESPONSE----------------------")
 
