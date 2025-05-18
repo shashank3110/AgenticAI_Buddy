@@ -1,5 +1,10 @@
 """
 Streamlit app for AIBuddy: Multiagent AI assistant.
+
+Currently supports following specialized agents:
+Finance
+Education, Job & Career
+Health, Sports and Nutrition
 """
 import streamlit as st
 from utils.agent_utils import get_response
@@ -47,35 +52,6 @@ def run_buddy():
         print("----------------END OF RESPONSE----------------------")
 
 
-
-
-# """
-#     # while True:
-#     query = st.text_area(label='query', key='text_prompt')
-#     # if query == '-1':
-#     #     break
-#     # elif query == 'SAVE':
-#     #     query = 'Save my responses'
-    
-#     if query:
-#         query_history.append({"role":"user", "content":query})
-
-#         result =  get_response(query_history)
-
-#         # handle async result request
-#         if asyncio.iscoroutine(result):
-#             result = asyncio.run(result)
-#         print(query_history)
-#         print(result)
-
-#     # if message_history is None:
-#     #     message_history = result.to_input_list()
-    
-#     if result is not None:
-#         st.write(result.final_output)
-
-#     print("----------------END OF RESPONSE----------------------")
-# """
 if __name__ == '__main__':
 
 
