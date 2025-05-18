@@ -9,9 +9,16 @@ from agents import set_default_openai_key
 import json
 import asyncio
 from utils.ai_agents import main_agent
+import streamlit as st
 
 # set api keys
-api_key = os.getenv("OPENAI_API_KEY")
+try:
+    # locally
+    api_key = os.getenv("OPENAI_API_KEY")
+except:
+    # streamlit cloud
+    api_key = st.secrets["OPENAI_API_KEY"]
+
 set_default_openai_key(api_key, use_for_tracing=False)
 
 async def get_response(input):

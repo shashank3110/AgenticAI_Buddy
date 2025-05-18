@@ -1,0 +1,4 @@
+streamlit==1.41.1
+openai==1.79.0
+openai-agents==0.0.15
+python-dotenv==1.1.0
