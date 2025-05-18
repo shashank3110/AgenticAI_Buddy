@@ -6,10 +6,10 @@ from agents import Agent, WebSearchTool, function_tool, ModelSettings, handoff, 
 from datetime import datetime
 import asyncio
 
-async def log_handoff(agent_call):
-   print(
-       f"[LOG] {agent_call['function']['name']} Handoff triggered at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
-   )
+# async def log_handoff(agent_call):
+#    print(
+#        f"[LOG] {agent_call['function']['name']} Handoff triggered at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+#    )
 
 
 wealthbuddy_agent = Agent(
@@ -150,25 +150,21 @@ instructions = """You are a helpful Personal assistant to assist users on import
 - Health, Sports and Nutrition
 
 HANDOFFS:
-For personal finance related queries handoff to WealthBuddy agent.
-For Education, Career and Job related queries handoff to CareerBuddy agent.
-For Health, Sports and Nutrition Job related queries handoff to HealthBuddy agent.
-For all other queries you can respond directly.
+For personal finance related queries -> hand off to WealthBuddy agent.
+For Education, Career and Job related queries -> hand off to CareerBuddy agent.
+For Health, Sports and Nutrition Job related queries -> hand off to HealthBuddy agent.
 
-If you use hand off then mention which Handoff agent was used.
-""",
+If a handoff is made, clearly mention: "Handoff to [AGENT NAME] was used.""",
+
 model = "gpt-4o-mini",
 model_settings=ModelSettings(
        temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
        max_tokens=1024,  # Maximum length of response
    ),
 handoffs = [
-    #    handoff(agent=wealthbuddy_agent, on_handoff= log_and_route_handoff),
        wealthbuddy_agent,
        careerbuddy_agent,
        healthbuddy_agent,
-
-
    ],
 
 tools=[WebSearchTool()] 

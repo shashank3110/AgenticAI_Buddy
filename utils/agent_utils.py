@@ -15,9 +15,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 set_default_openai_key(api_key, use_for_tracing=False)
 
 async def get_response(input):
-    result = await Runner.run(main_agent, input=input, )    
-    print(result._last_agent)
-    print(dir(result))
+    result = await Runner.run(main_agent, input=input, )
     return result
 
 
