@@ -17,7 +17,8 @@ def print_message_history():
             st.markdown(message["content"])
 
 def run_buddy():
-
+    st.title("AIBuddy: Your Smart Buddy")
+    st.markdown(''':blue[Powered by Multi-Agent AI]''')
     query_history = []
     if "message_history" not in st.session_state:
         st.session_state.message_history = []
