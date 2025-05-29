@@ -21,8 +21,15 @@ except:
 
 set_default_openai_key(api_key, use_for_tracing=False)
 
-async def get_response(input):
-    result = await Runner.run(main_agent, input=input, )
+
+def get_conv_session_runner():
+    """
+    Initialize Runner object at start of the session.
+    """
+    return Runner()
+
+async def get_response(input, thread):
+    result = await Runner.run(main_agent, input=input, thread=thread)
     return result
 
 
