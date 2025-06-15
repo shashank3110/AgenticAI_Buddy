@@ -6,6 +6,7 @@ Finance
 Education, Job & Career
 Health, Sports and Nutrition
 Travel, Adventure and Exploration
+Math and Computer Science
 """
 import streamlit as st
 from utils.agent_utils import get_response, get_conv_session_runner
@@ -102,6 +103,10 @@ def run_buddy():
 
                 st.markdown(f'**Agent used: {result.last_agent.name}**')
                 st.markdown(result.final_output)
+                # logging
+                print('logging: Agent Trace')
+                for item in result.new_items:
+                    print(item.type, item)
 
         
         st.session_state.message_history.append({"role": f"assistant", "content": result.final_output})

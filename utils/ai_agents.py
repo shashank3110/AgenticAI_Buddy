@@ -2,7 +2,7 @@
 Contains mainorchestrating agent and handoff agents 
 for AIBuddy.
 """
-from agents import Agent, WebSearchTool, function_tool, ModelSettings, handoff, RunContextWrapper
+from agents import Agent, WebSearchTool, function_tool, ModelSettings, handoff, RunContextWrapper,CodeInterpreterTool
 from datetime import datetime
 import asyncio
 
@@ -12,6 +12,40 @@ import asyncio
 #    )
 
 welcome_prompt = """Who are you and what agents can you hand off my queries to?"""
+
+MathandCodingBuddy = Agent( 
+
+name = "MathandCodingBuddy",
+instructions= """You are a helpful Mathematics and Programming assistant and can help users with math and computer science
+problems.
+YOUR EXPERTISE:
+- Basic calculation: Compound interest, unitary method, BODMAS.
+- Advanced Mathtmatics : statistics, probability, calculus, algebra, geometry, game theory.
+- Algorithms : sorting, searching, a-star, Djikstra, N-queens, scheduling, Divide and Conquer.
+- Time Complexity and Space complexity
+- Programming: Python, SQL, Java, C, C++, Rust, Java Script, HTML, CSS, R, Matlab
+- Operating Systems, Finite Automata, Distributed databases, Cloud Computing, AI, Machine learning.
+
+LIMITATIONS:
+- Do not provide incorrect answers or incorrect formulae.
+
+STYLE:
+- Use Chain of though (COT) reasoning to break a complex question into step-wise solutions.
+- Be a Math and Computer science geek.
+
+After every response save the user's query and response.
+When you are not sure of an answer repond that you don't know enough on that topic.""",
+
+model = "gpt-4o-mini",
+model_settings=ModelSettings(
+       temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
+       max_tokens=1024,  # Maximum length of response
+   ),
+
+tools=[WebSearchTool(), CodeInterpreterTool(tool_config='code_interpreter')] # code interpreter for calculations
+
+
+)
 
 WealthBuddy = Agent(
 name = "WealthBuddy",
@@ -42,7 +76,8 @@ model_settings=ModelSettings(
        temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
        max_tokens=1024,  # Maximum length of response
    ),
-   tools=[WebSearchTool()] 
+
+tools=[WebSearchTool()] 
 
 )
 
@@ -75,7 +110,7 @@ model_settings=ModelSettings(
        temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
        max_tokens=1024,  # Maximum length of response
    ),
-   tools=[WebSearchTool()] 
+tools=[WebSearchTool()] 
 
 )
 
@@ -106,7 +141,7 @@ model_settings=ModelSettings(
        temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
        max_tokens=1024,  # Maximum length of response
    ),
-   tools=[WebSearchTool()] 
+tools=[WebSearchTool()] 
 
 )
 
@@ -137,7 +172,7 @@ model_settings=ModelSettings(
        temperature=0.3,  # Lower for more deterministic outputs (0.0-2.0)
        max_tokens=1024,  # Maximum length of response
    ),
-   tools=[WebSearchTool()] 
+tools=[WebSearchTool()] 
 
 )
 
@@ -147,12 +182,21 @@ instructions = """You are a helpful Personal assistant to assist users on import
 - Personal Finance
 - Education, Career & Job
 - Health, Sports and Nutrition
+- Travel, Adeventure
+- Mathematics and Computer Science
 
 HANDOFFS:
 For personal finance related queries -> hand off to WealthBuddy agent.
 For Education, Career and Job related queries -> hand off to CareerBuddy agent.
 For Health, Sports and Nutrition Job related queries -> hand off to HealthBuddy agent.
 For Travel, Adventure related queries -> hand off to TravelBuddy agent
+For Mathematics and Computer Science related queries -> handoff to MathandCodingBuddy agent.
+
+TOOLS:
+For latest information -> use Websearch tool
+For Mathematical calculations -> use MathandCodingBuddyTool
+For Finances, Budgeting, Saving e.g. Budget for Trip -> use WealthBuddyTool
+
 
 If a handoff is made, clearly mention: "Handoff to [AGENT NAME] was used.
 for example: for education and career related questions mention: "Handoff to CareerBuddy was used."
@@ -167,9 +211,14 @@ handoffs = [
        WealthBuddy,
        CareerBuddy,
        HealthBuddy,
-       TravelBuddy
+       TravelBuddy,
+       MathandCodingBuddy
    ],
 
-tools=[WebSearchTool()] 
+# using MathandCode buddy and WealthBuddy also as a tool since mathematics, finances can be useful for other domains as well:
+# e.g.:  plan iternary to Antarctica - Travel buddy, calculate budget and a savings plan for the trip.
+tools=[WebSearchTool(), 
+       MathandCodingBuddy.as_tool(tool_name='MathandCodingBuddyTool', tool_description='Supports Mathematics and Coding queries'),
+       WealthBuddy.as_tool(tool_name='WealthBuddyTool', tool_description='')] 
 )
 
