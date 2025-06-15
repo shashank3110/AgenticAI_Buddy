@@ -1,6 +1,6 @@
 # AgenticAI_Buddy
 Agentic AI based multi-agent application. 
-This handles users' queries on specific topics related to Finance, Career, Health and Travel.
+This handles users' queries on specific topics related to Finance, Career, Health and Travel, Math and Coding.
 
 ### Agents:
 - AIBuddy - main agent/triage agent
@@ -9,6 +9,7 @@ Following are specialized agents for domain specific queries:
 - CareerBuddy
 - HealthBuddy
 - TravelBuddy
+- MathandCodingBuddy
 
 (The current version I have implemented & pushed here works. But it is still a work in progress as I will further enhance it with code refactoring, better UI and improve multi-agent orchestration.)
 
@@ -20,6 +21,7 @@ Following are specialized agents for domain specific queries:
 Here I used the following related concepts: <br>
 ✅ Agentic Handoff <br>
 ✅ Tool integration: eg: Web search, Function calling. <br>
+✅ Agent as tool (e.g.: using Wealth buddy as a financial planning tool for  TravelBuddyAgents Trip Budgeting.)<br>
 ✅ RAG (Retrieval augmented generation): provides additional context for the LLM. 
 
 Let me summarize the various concepts I explored:
